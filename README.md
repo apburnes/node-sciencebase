@@ -7,8 +7,8 @@ A USGS Science Base API
 
 ## Install
 
-`$ git clone git@github.com:apburnes/node-sciencebase.git`
-`$ cd node-sciencebase`
+`$ git clone git@github.com:apburnes/node-sciencebase.git && cd node-sciencebase`
+
 `$ npm install`
 
 ## Test
