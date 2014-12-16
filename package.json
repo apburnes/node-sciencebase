@@ -1,0 +1,28 @@
+{
+  "name": "node-sciencebase",
+  "version": "0.0.1",
+  "description": "A USGS Science Base API Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp lint && mocha test/"
+  },
+  "keywords": [
+    "USGS",
+    "Science",
+    "Science Base",
+    "API"
+  ],
+  "author": "AndyB",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.3.11",
+    "lodash": "^2.4.1",
+    "qs": "^2.3.3",
+    "request": "^2.51.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "chai-as-promised": "^4.1.1",
+    "mocha": "^2.0.1"
+  }
+}
