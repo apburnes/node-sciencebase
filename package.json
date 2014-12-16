@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A USGS Science Base API Client",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:apburnes/node-sciencebase.git"
+  },
   "scripts": {
     "test": "gulp lint && mocha test/"
   },
@@ -23,6 +27,8 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-as-promised": "^4.1.1",
+    "gulp": "^3.8.10",
+    "gulp-jshint": "^1.9.0",
     "mocha": "^2.0.1"
   }
 }
