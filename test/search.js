@@ -24,11 +24,11 @@ var bodyKeys = [
 describe('Science Base Search', function() {
 
   it('should return success searching catalog for query "water" with a callback', function(done) {
-    var reqObject = {
+    var queryObject = {
       q: 'water'
     };
 
-    client.search(reqObject, function(err, data) {
+    client.search(queryObject, function(err, data) {
       expect(data).to.be.instanceof(Object);
       expect(data).to.have.keys(returnKeys);
       expect(data.statusCode).to.be.equal(200);
@@ -41,11 +41,11 @@ describe('Science Base Search', function() {
   });
 
   it('should return success searching catalog for query "water" with a promise', function() {
-    var reqObject = {
+    var queryObject = {
       q: 'water'
     };
 
-    return expect(client.search(reqObject))
+    return expect(client.search(queryObject))
       .to.eventually.be.instanceof(Object)
       .and.to.have.keys(returnKeys)
       .then(function(data) {
@@ -54,7 +54,36 @@ describe('Science Base Search', function() {
         expect(data.body.total).to.be.above(0);
         expect(data.body.items).to.be.instanceof(Array);
         expect(data.body.items.length).to.be.above(0);
-        return;
+      });
+  });
+
+  it('should return success searching catalog with a string', function() {
+    var queryString = 'water';
+
+    return expect(client.search(queryString))
+      .to.eventually.be.instanceof(Object)
+      .and.to.have.keys(returnKeys)
+      .then(function(data) {
+        expect(data.statusCode).to.be.equal(200);
+        expect(data.body).to.have.keys(bodyKeys);
+        expect(data.body.total).to.be.above(0);
+        expect(data.body.items).to.be.instanceof(Array);
+        expect(data.body.items.length).to.be.above(0);
+      });
+  });
+
+  it('should return success searching catalog with an array', function() {
+    var queryArray = ['water', 'earth', 'plants'];
+
+    return expect(client.search(queryArray))
+      .to.eventually.be.instanceof(Object)
+      .and.to.have.keys(returnKeys)
+      .then(function(data) {
+        expect(data.statusCode).to.be.equal(200);
+        expect(data.body).to.have.keys(bodyKeys);
+        expect(data.body.total).to.be.above(0);
+        expect(data.body.items).to.be.instanceof(Array);
+        expect(data.body.items.length).to.be.above(0);
       });
   });
 
@@ -75,20 +104,12 @@ describe('Science Base Search', function() {
       });
   });
 
-  it('should return an not found with invalid query object key', function() {
+  it('should reject with invalid query object key', function() {
     var invalidReq = {
       foobarbaz: 'foobarbaz'
     };
 
     return expect(client.search(invalidReq))
-      .to.eventually.be.an.instanceof(Object)
-      .then(function(data) {
-        return expect(data.statusCode).to.be.equal(404);
-      });
-  });
-
-  it('should reject with an invalid, non-object request data type', function() {
-    return expect(client.search('foobarbaz'))
       .to.eventually.be.rejectedWith(Error);
   });
 });

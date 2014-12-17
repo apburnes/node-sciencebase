@@ -1,22 +1,37 @@
 'use strict';
 
+var _ = require('lodash');
+
 var search = require('./lib/search');
-var baseUrl = 'https://www.sciencebase.gov/catalog/items';
+var processQuery = require('./lib/processQuery');
+var onSuccess = require('./lib/output').onSuccess;
+
+var config = {
+  baseUrl: 'https://www.sciencebase.gov/catalog/items',
+  format: 'json',
+  max: 20
+};
 
 function Client(options) {
-  if(!(this instanceof Client)) {
+  if (!(this instanceof Client)) {
     return new Client(options);
   }
   
-  this.baseUrl = baseUrl;
-  this.format = {
-    format: 'json'
-  };
+  if (!(_.isObject(options))) {
+    options = {};
+  }
+
+  this.config = _.defaults(options, config);
 }
 
 Client.prototype = {
-  search: search.search,
-  searchStream: search.stream
+  search: function(query, callback) {
+    var options = processQuery(query, this.config);
+
+    return search(options)
+      .spread(onSuccess)
+      .nodeify(callback);
+  }
 };
 
 module.exports = Client;
