@@ -2,9 +2,12 @@
 
 var _ = require('lodash');
 
-var search = require('./lib/search');
+var Promise = require('bluebird');
+var request = Promise.promisifyAll(require('request'));
+
 var processQuery = require('./lib/processQuery');
-var onSuccess = require('./lib/output').onSuccess;
+var buildSearchQuery = require('./lib/buildSearchQuery');
+var onSuccess = require('./lib/formatOutput').onSuccess;
 
 var config = {
   baseUrl: 'https://www.sciencebase.gov/catalog/items',
@@ -16,7 +19,7 @@ function Client(options) {
   if (!(this instanceof Client)) {
     return new Client(options);
   }
-  
+
   if (!(_.isObject(options))) {
     options = {};
   }
@@ -26,13 +29,21 @@ function Client(options) {
 
 Client.prototype = {
   search: function(query, callback) {
-    var options = processQuery(query, this.config);
+    return processQuery(query, this.config)
+      .then(buildSearchQuery)
+      .then(function(url) {
+        var reqObject = {
+          url: url,
+          json: true
+        };
 
-    return search(options)
+        console.log(reqObject);
+        return request.getAsync(reqObject);
+      })
       .spread(onSuccess)
       .nodeify(callback);
   }
 };
 
 module.exports = Client;
-  
+
