@@ -18,8 +18,11 @@ var config = {
 
 describe('Build Search Query', function() {
 
-  function parseUrl(url) {
-    var q = url.split('?')[1];
+  function parseUrl(query) {
+    expect(query.s).to.equal(config.s);
+    expect(query.format).to.equal(config.format);
+    expect(query.max).to.equal(config.max);
+    var q = query.url.split('?')[1];
     return qs.parse(q);
   }
 
@@ -32,14 +35,15 @@ describe('Build Search Query', function() {
       q: stringValue
     });
 
-    buildTest(query, function(string, parsedUrl) {
+    buildTest(query, function(res, parsedUrl) {
       var queryKeys = _.pull(_.keys(query), 'baseUrl');
-      expect(string).to.be.a('string');
+      expect(res).to.be.an('object');
+      expect(res.url).to.be.a('string');
       expect(parsedUrl).to.have.keys(queryKeys);
-      expect(parsedUrl.s).to.equal('Search');
-      expect(parsedUrl.q).to.equal(stringValue);
-      expect(parsedUrl.format).to.equal(query.format);
-      expect(parsedUrl.max).to.equal(query.max);
+      expect(parsedUrl.s).to.equal(res.s);
+      expect(parsedUrl.q).to.equal(res.q);
+      expect(parsedUrl.format).to.equal(res.format);
+      expect(parsedUrl.max).to.equal(res.max);
       done();
     });
   });
@@ -50,15 +54,16 @@ describe('Build Search Query', function() {
       fields: stringValue
     });
 
-    buildTest(query, function(string, parsedUrl) {
+    buildTest(query, function(res, parsedUrl) {
       var queryKeys = _.pull(_.keys(query), 'baseUrl');
-      expect(string).to.be.a('string');
+      expect(res).to.be.an('object');
+      expect(res.url).to.be.a('string');
       expect(parsedUrl).to.have.keys(queryKeys);
-      expect(parsedUrl.s).to.equal('Search');
-      expect(parsedUrl.q).to.equal(stringValue);
-      expect(parsedUrl.format).to.equal(query.format);
-      expect(parsedUrl.fields).to.equal(query.fields);
-      expect(parsedUrl.max).to.equal(query.max);
+      expect(parsedUrl.s).to.equal(res.s);
+      expect(parsedUrl.q).to.equal(res.q);
+      expect(parsedUrl.fields).to.equal(res.fields);
+      expect(parsedUrl.format).to.equal(res.format);
+      expect(parsedUrl.max).to.equal(res.max);
       done();
     });
   });
@@ -69,15 +74,16 @@ describe('Build Search Query', function() {
       folderId: stringValue
     });
 
-    buildTest(query, function(string, parsedUrl) {
+    buildTest(query, function(res, parsedUrl) {
       var queryKeys = _.pull(_.keys(query), 'baseUrl');
-      expect(string).to.be.a('string');
+      expect(res).to.be.an('object');
+      expect(res.url).to.be.a('string');
       expect(parsedUrl).to.have.keys(queryKeys);
-      expect(parsedUrl.s).to.equal('Search');
-      expect(parsedUrl.q).to.equal(stringValue);
-      expect(parsedUrl.format).to.equal(query.format);
-      expect(parsedUrl.folderId).to.equal(query.folderId);
-      expect(parsedUrl.max).to.equal(query.max);
+      expect(parsedUrl.s).to.equal(res.s);
+      expect(parsedUrl.q).to.equal(res.q);
+      expect(parsedUrl.folderId).to.equal(res.folderId);
+      expect(parsedUrl.format).to.equal(res.format);
+      expect(parsedUrl.max).to.equal(res.max);
       done();
     });
   });
@@ -88,15 +94,16 @@ describe('Build Search Query', function() {
       fields: undefined
     });
 
-    buildTest(query, function(string, parsedUrl) {
+    buildTest(query, function(res, parsedUrl) {
       var queryKeys = _.pull(_.keys(query), 'baseUrl', 'fields');
-      expect(string).to.be.a('string');
+      expect(res).to.be.an('object');
+      expect(res.url).to.be.a('string');
       expect(parsedUrl).to.have.keys(queryKeys);
-      expect(parsedUrl.s).to.equal('Search');
-      expect(parsedUrl.q).to.equal(stringValue);
-      expect(parsedUrl.format).to.equal(query.format);
-      expect(parsedUrl.fields).to.equal(query.fields);
-      expect(parsedUrl.max).to.equal(query.max);
+      expect(parsedUrl.s).to.equal(res.s);
+      expect(parsedUrl.q).to.equal(res.q);
+      expect(parsedUrl.fields).to.equal(undefined);
+      expect(parsedUrl.format).to.equal(res.format);
+      expect(parsedUrl.max).to.equal(res.max);
       done();
     });
   });
@@ -108,15 +115,16 @@ describe('Build Search Query', function() {
       folderId: undefined
     });
 
-    buildTest(query, function(string, parsedUrl) {
+    buildTest(query, function(res, parsedUrl) {
       var queryKeys = _.pull(_.keys(query), 'baseUrl', 'folderId');
-      expect(string).to.be.a('string');
+      expect(res).to.be.an('object');
+      expect(res.url).to.be.a('string');
       expect(parsedUrl).to.have.keys(queryKeys);
-      expect(parsedUrl.s).to.equal('Search');
-      expect(parsedUrl.q).to.equal(stringValue);
-      expect(parsedUrl.format).to.equal(query.format);
-      expect(parsedUrl.folderId).to.equal(query.folderId);
-      expect(parsedUrl.max).to.equal(query.max);
+      expect(parsedUrl.s).to.equal(res.s);
+      expect(parsedUrl.q).to.equal(res.q);
+      expect(parsedUrl.folderId).to.equal(undefined);
+      expect(parsedUrl.format).to.equal(res.format);
+      expect(parsedUrl.max).to.equal(res.max);
       done();
     });
   });

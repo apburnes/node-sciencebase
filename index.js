@@ -31,19 +31,20 @@ Client.prototype = {
   search: function(query, callback) {
     return processQuery(query, this.config)
       .then(buildSearchQuery)
-      .then(function(url) {
-        var reqObject = {
-          url: url,
-          json: true
-        };
-
-        console.log(reqObject);
-        return request.getAsync(reqObject);
-      })
+      .then(makeRequest)
       .spread(onSuccess)
       .nodeify(callback);
   }
 };
+
+function makeRequest(obj) {
+  var reqObject = {
+    url: obj.url,
+    json: obj.format === 'json'
+  };
+
+  return request.getAsync(reqObject);
+}
 
 module.exports = Client;
 
