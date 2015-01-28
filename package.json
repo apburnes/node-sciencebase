@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git@github.com:apburnes/node-sciencebase.git"
   },
+  "homepage": "https://github.com/apburnes/node-sciencebase",
   "scripts": {
     "test": "gulp lint && mocha test/",
     "mocha": "mocha"
